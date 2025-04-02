@@ -27,7 +27,8 @@ To run **SlideJet-Convert**, you need the following installed locally (on **Wind
 - [Python](https://www.python.org/downloads/)
 - [Microsoft PowerPoint](https://www.microsoft.com/microsoft-365/powerpoint)
 - Python packages: `streamlit`, `pywin32`, and `pillow`
-Download the Python files SlideJet_convert.py and eventually SlideJet_present.py on a folder on your local computer
+  
+Download the Python files **SlideJet_convert.py** and eventually **SlideJet_present.py** on a folder on your local computer
 
 ---
 
