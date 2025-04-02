@@ -45,9 +45,9 @@ presentation_folder = "slides/SlideJet_Overview"
 #TODO: Use the parameters above in the texts
 
 #
-st.title("Presentation Slides")
-st.header(':red-background[Module M1A - Review of key topics]')
-st.subheader('Storage and Flow of water', divider='red')
+st.title("SlideJet Presentation")
+st.header(':red-background[Transfer your slides into a Streamlit presentation]')
+st.subheader('Overview and Demo', divider='red')
 
 st.markdown(""" 
     You can move through the slides with the left/right button. Alternatively, you can switch through the slides with the slider. Finally, you can use the toggle to switch to an vertical layout to eventually adapt the app to your device. 
@@ -141,4 +141,4 @@ columns_lic = st.columns((5,1))
 with columns_lic[0]:
     st.markdown(f'Developed by {", ".join(author_list)} ({year}). <br> {institution_text}', unsafe_allow_html=True)
 with columns_lic[1]:
-    st.image('FIGS/CC_BY-SA_icon.png')
+    st.image('figs/CC_BY-SA_icon.png')
