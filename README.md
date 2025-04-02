@@ -7,6 +7,8 @@ SlideJet consists of two components:
 1. **SlideJet-Convert**: A Streamlit application that runs locally and converts PowerPoint presentations (including speaker notes) into web-ready graphics and note files.
 2. **SlideJet-Present**: A Streamlit application to present the converted slides in a user-friendly web format. Presentations can be deployed online via platforms like Streamlit Community Cloud.
 
+[**See an working example by clicking here**](https://slidejet-overview.streamlit.app/)
+
 ---
 
 ### ✨ Features
