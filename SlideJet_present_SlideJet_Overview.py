@@ -38,9 +38,9 @@ st.set_page_config(
 ################
 
 # Presettings - Here you can adjust the application to your specific application
-header_text = 'Module M1A - Review of key topics'
-subheader_text = 'Storage and Flow of water'
-presentation_folder = "SYMPLE25_M1C_3"
+header_text = 'SlideJet Presentation'
+subheader_text = 'Overview and Demo'
+presentation_folder = "slides/SlideJet_Overview"
 
 #TODO: Use the parameters above in the texts
 

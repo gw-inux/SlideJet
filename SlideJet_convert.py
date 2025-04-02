@@ -5,6 +5,7 @@ import shutil
 import pythoncom
 import win32com.client
 import json
+import tempfile
 from PIL import Image
 
 ###
@@ -22,22 +23,28 @@ index_symbols = ["¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"]
 author_list = [f"{name}{''.join(index_symbols[i-1] for i in indices)}" for name, indices in authors.items()]
 institution_list = [f"{index_symbols[i-1]} {inst}" for i, inst in institutions.items()]
 institution_text = " | ".join(institution_list)  # Institutions in one line
-###
+# Header and title
 
-
+st.set_page_config(
+    page_title="SlideJet - Convert",
+    page_icon="🚀",
+)
 
 # Streamlit App Title
 st.title("🚀 SlideJet - Convert")
 st.header("PowerPoint to Streamlit-Ready Slideshow", divider= "green")
 
 st.markdown(""" 
-    SlideJet-convert allows you to transfer a Powerpoint presentation with notes into *.png graphics and a JSON file that contains the slide notes. You can upload any Powerpoint file. Subsequently, you can define the name of the folder where the tools save the JSON file and the 'images' folder. 
+    SlideJet-convert allows you to transfer a Powerpoint presentation with notes into *.png graphics and a JSON file that contains the slide notes. You can upload any Powerpoint file. Subsequently, you can define the name of the folder where the tools save the JSON file and the 'images' folder.
+    
+    SlideJet works with PowerPoint in the background to convert your slides. **Now** it's a good moment to safe your open presentations in case of unexpected troubles with PowerPoint.
         """)
 
 # File upload section
 uploaded_file = st.file_uploader("Upload a PowerPoint file", type=["pptx"])
 
 if uploaded_file:
+    
     # Extract filename (without extension)
     pptx_filename = os.path.splitext(uploaded_file.name)[0]
 
@@ -91,7 +98,7 @@ if uploaded_file:
                 st.error(f"Error exporting slide {i}: {e}")
 
         presentation.Close()
-        powerpoint.Quit()
+        #powerpoint.Quit()
         pythoncom.CoUninitialize()
 
         return slide_data
@@ -102,10 +109,15 @@ if uploaded_file:
             json.dump(slide_data, f, indent=4)
 
     if st.button("Convert to Slideshow Data"):
-        # Save uploaded file temporarily
-        temp_ppt_path = os.path.join(tempfile.gettempdir(), uploaded_file.name)
-        with open(temp_ppt_path, "wb") as f:
-            f.write(uploaded_file.getbuffer())
+#        # Save uploaded file temporarily
+#        temp_ppt_path = os.path.join(tempfile.gettempdir(), uploaded_file.name)
+#        with open(temp_ppt_path, "wb") as f:
+#            f.write(uploaded_file.getbuffer())
+
+        # Save uploaded file to a unique temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pptx") as tmp_file:
+            tmp_file.write(uploaded_file.getbuffer())
+            temp_ppt_path = tmp_file.name
 
         # Convert PPT slides to images using PowerPoint automation and extract notes
         slide_data = convert_ppt_to_images_using_powerpoint(temp_ppt_path, IMAGE_DIR)
@@ -116,6 +128,9 @@ if uploaded_file:
         if slide_data:
             st.success(f"Slides and notes successfully saved in `{OUTPUT_DIR}`.")
             st.success(f"Slide data JSON saved for Streamlit slideshow in `{JSON_FILE}`.")
+        
+        # Delete temporary file
+        os.remove(temp_ppt_path)
 
 '---'
 # Render footer with authors, institutions, and license logo in a single line

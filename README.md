@@ -11,12 +11,13 @@ SlideJet consists of two components:
 
 ### ✨ Features
 
-- Convert PowerPoint slides and notes into web-optimized figures and data.
-- Display slides directly in a Streamlit app.
+- Convert PowerPoint slides and notes into web-optimized figures and structured data.
+- Display slides directly in a Streamlit app — share your presentation via link or QR code.
 - Show speaker notes alongside each slide.
 - Designed for future multi-language support (automatic translation planned).
-- Output format is optimized for deployment on GitHub Pages or other static hosts.
-- Ideal for teaching, workshops, training materials, and documentation.
+- Output format optimized for deployment on GitHub Pages or other static hosting platforms.
+- Ideal for teaching, conferences, workshops, training materials, and documentation.
+- Provide your audience with the most recent version of your slides and update content quickly and efficiently.
 
 ---
 
@@ -36,11 +37,13 @@ Open a **Command Prompt** and run the following command:
 
 ```bash
 pip install streamlit pywin32 pillow
+```
 
 Then start the app with:
 
 ```bash
 streamlit run app.py
+```
 
 ### 📺 Getting Started
 
