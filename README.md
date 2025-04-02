@@ -11,13 +11,10 @@ SlideJet consists of two components:
 
 ### ✨ Features
 
-- Convert PowerPoint slides and notes into web-optimized figures and structured data.
-- Display slides directly in a Streamlit app — share your presentation via link or QR code.
 - Show speaker notes alongside each slide.
 - Designed for future multi-language support (automatic translation planned).
 - Output format optimized for deployment on GitHub Pages or other static hosting platforms.
-- Ideal for teaching, conferences, workshops, training materials, and documentation.
-- Provide your audience with the most recent version of your slides and update content quickly and efficiently.
+- Output format is optimized for deployment on GitHub Pages or other static hosts.
 
 ---
 
@@ -29,9 +26,13 @@ To run **SlideJet-Convert**, you need the following installed locally (on **Wind
 - [Microsoft PowerPoint](https://www.microsoft.com/microsoft-365/powerpoint)
 - Python packages: `streamlit`, `pywin32`, and `pillow`
 
+  
 ---
 
 ### ⚙️ Installation
+### ⚙️ Installation and running the app
+
+Download the Python files **SlideJet_convert.py** and eventually **SlideJet_present.py** on a folder on your local computer
 
 Open a **Command Prompt** and run the following command:
 
@@ -40,9 +41,11 @@ pip install streamlit pywin32 pillow
 ```
 
 Then start the app with:
+Then start the app with the command window from the folder where SlideJet_convert.py is saved with:
 
 ```bash
 streamlit run app.py
+streamlit run SlideJet_convert.py
 ```
 
 ### 📺 Getting Started
