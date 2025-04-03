@@ -1,7 +1,7 @@
 [
     {
         "image": "images/slide_1.png",
-        "notes": "The following slides briefly introdude SlideJet. They provide instructions for installing and using SlideJet."
+        "notes": "The following slides briefly introduce SlideJet, a tool to transfer PowerPoint presentations into Streamlit slideshows.\rThe presentation provides an overview and gives instructions for installing and using SlideJet."
     },
     {
         "image": "images/slide_2.png",
@@ -9,34 +9,34 @@
     },
     {
         "image": "images/slide_3.png",
-        "notes": "No notes"
+        "notes": "SlideJet\r- Convert PowerPoint slides and notes into web-optimized figures and data.\r- Display slides directly in a Streamlit app.\r- Show speaker notes alongside each slide.\r- Designed for future multi-language support (automatic translation planned).\r- Output format is optimized for deployment on GitHub Pages or other static hosts.\r- Ideal for teaching, workshops, training materials, and documentation."
     },
     {
         "image": "images/slide_4.png",
-        "notes": "No notes"
+        "notes": "SlideJet needs the script SlideJet_convert.py on your local computer. It opens Powerpoint and extract the information from the slides in a folder that contains a picture of each slide together with a JSON file that contains all notes. Subsequently, the SlideJet_present.py script can present the slides and notes as slideshow. The presentation script is specific for each presentation and can be finally deployed through Streamlit Community cloud (or similar) as webapplication."
     },
     {
         "image": "images/slide_5.png",
-        "notes": "No notes"
+        "notes": "SlideJet is an open-source tool with minimum requirements.\rPowerpoint is required to open and process your pptx file. SlideJet_covert runs on your local computer and needs Python and Streamlit installed. The SlideJet_convert.py script is needed on your local computer too."
     },
     {
         "image": "images/slide_6.png",
-        "notes": "No notes"
+        "notes": "All required tools are open source. The installation steps require typically a few minutes only."
     },
     {
         "image": "images/slide_7.png",
-        "notes": "No notes"
+        "notes": "Open a command window in the folder where the SlideJet_convert.py script is saved.\rType the command \u2018streamlit run SlideJet_convert.py\u2019. Subsequently a browser window will open with the SlideJet \u2013 Convert application."
     },
     {
         "image": "images/slide_8.png",
-        "notes": "No notes"
+        "notes": "Now, browse to the *.pptx presentation to convert. Alternatively, you can drag-and-drop a file here.\rThe SlideJet \u2013 Convert application will ask for a folder name. The name of the presentation file is the initial setting for the folder name. Now you can start the conversation with the \u2018Convert to Slideshow Data\u2019 button.\rAfter the successful conversion you will find in the previously defined folder the slideshow as images and a JSON file named slide_data that contains the notes."
     },
     {
         "image": "images/slide_9.png",
-        "notes": "No notes"
+        "notes": "After the conversion you can prepare your individual slideshow presentation for Streamlit. You start with the SlideJet_present.py as TEMPLATE. Typically, you adjust the title and header of the presentation AND you define the path to the folder with the slide information, that SlideJet \u2013 Convert generated. If you finished your modifications, save the script with a name of your choice. This Streamlit Script is your slideshow presentation."
     },
     {
         "image": "images/slide_10.png",
-        "notes": "No notes"
+        "notes": "The specifically name presentation script can be executed local (command window at the specific folder, then type \u2018Streamlit run NAME_OF_YOUR_FILE.py). If you want to deliver your presentation as web application, safe the presentation script and the files in an repository like GitHub and deploy through e.g., the Streamlit Community cloud service."
     }
 ]
