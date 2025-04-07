@@ -139,13 +139,13 @@ with columns_lic[0]:
     st.markdown(f'Developed by {", ".join(author_list)} ({year}). <br> {institution_text}', unsafe_allow_html=True)
 with columns_lic[1]:
     try:
-        img_sj = Image.open("figs/SlideJet_Logo_Wide_small.png")
+        img_sj = Image.open("FIGS/SlideJet_Logo_Wide_small.png")
         st.image(img_sj)
     except FileNotFoundError:
-        st.image("https://raw.githubusercontent.com/gw-inux/SlideJet/main/figs/SlideJet_Logo_Wide_small.png")
+        st.image("https://raw.githubusercontent.com/gw-inux/SlideJet/main/FIGS/SlideJet_Logo_Wide_small.png")
     
 with columns_lic[2]:
     try:
-        st.image(Image.open("figs/CC_BY-SA_icon.png"))
+        st.image(Image.open("FIGS/CC_BY-SA_icon.png"))
     except FileNotFoundError:
-        st.image("https://raw.githubusercontent.com/gw-inux/SlideJet/main/figs/CC_BY-SA_icon.png")
+        st.image("https://raw.githubusercontent.com/gw-inux/SlideJet/main/FIGS/CC_BY-SA_icon.png")
