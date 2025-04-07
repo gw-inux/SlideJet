@@ -3,6 +3,14 @@ import streamlit as st
 import json
 from pathlib import Path
 from PIL import Image
+from deep_translator import GoogleTranslator
+
+@st.cache_data(show_spinner=False)
+def translate_notes(text, target_lang):
+    try:
+        return GoogleTranslator(source='auto', target=target_lang).translate(text)
+    except Exception as e:
+        return f"[Translation failed: {e}]"
 
 # This is a generalized application to present Powerpoint slides and notes as slideshow through Streamlit
 # You can adapt the script with header and path to a specific presentation. To do this, just replace the initial informations.
@@ -40,7 +48,7 @@ st.set_page_config(
 
 # Folder to your presentation
 
-presentation_folder = "slidesSlideJet_Overview"
+presentation_folder = "slides/SlideJet_Overview"
 
 # Presettings - Here you can adjust the application to your specific application
 
@@ -60,10 +68,36 @@ st.markdown("""
 JSON_file = os.path.join(presentation_folder, "slide_data.json")
 images_folder = os.path.join(presentation_folder, "images")
 
+# Language selection
+# --- Language options with flags ---
+languages = {
+    "🇬🇧 English": "en",
+    "🇪🇸 Spanish": "es",
+    "🇫🇷 French": "fr",
+    "🇩🇪 German": "de",
+    "🇮🇹 Italian": "it",
+    "🇷🇺 Russian": "ru",
+    "🇨🇳 Chinese (Simplified)": "zh-CN",
+    "🇮🇳 Hindi": "hi",
+    "🇧🇩 Bengali": "bn",
+    "🇺🇾 Urdu": "ur",    
+    "🇦🇪 Arabic": "ar",
+    "🇯🇵 Japanese": "ja",
+    "🇰🇷 Korean": "ko",
+    "🇻🇳 Vietnamese": "vi",
+    "🇹🇷 Turkish": "tr",
+    "🇵🇹 Portuguese": "pt",
+    "🇵🇱 Polish": "pl",
+    "🇳🇱 Dutch": "nl", 
+    "🇮🇩 Indonesian": "id",
+    "🇹🇭 Thai": "th",
+}
+
+# Set 'None' as the default for original, assuming no fixed source language
+language_names = ["🌐 Original Notes"] + list(languages.keys())
+
 # Initialize
 slide_data = None  # Initialize
-
-# TODO: THis is not fully working / Fix
 
 # Open files - first, check if default JSON exists
 if os.path.exists(JSON_file):
@@ -101,22 +135,25 @@ if slide_data:
 
     num_slides = len(slide_data)
     
-    # Toggle for vertical content organization and streamlit layout
-    
+    # Layout and Language selection    
     lc, cc, rc = st.columns((1,1,1))
     with lc:
-        vertical = st.toggle('Click here for vertical layout')
-    with cc:
-# --- Layout toggle switch ---
+        # --- Layout toggle switch ---
         wide_mode = st.toggle("Use wide layout", value=(st.session_state.layout_choice_SJ == "wide"))
         new_layout = "wide" if wide_mode else "centered"
         
         if new_layout != st.session_state.layout_choice_SJ:
             st.session_state.layout_choice_SJ = new_layout
             st.rerun()
+        vertical = st.toggle('Toggle to show notes below slides')
+    with cc:
+        selected_lang_display = st.selectbox("Language for speaker notes", options=language_names)
     with rc:
         st.write('Number of slides in the presentation: %3i' %num_slides)
         
+    # None = no translation
+    target_lang = None if selected_lang_display == "🌐 Original Notes" else languages[selected_lang_display]
+    
     # Navigation buttons
     col1, col2, col3 = st.columns([1, 3, 1])
     with col2:
@@ -126,15 +163,31 @@ if slide_data:
     selected_slide = slide_data[st.session_state["slide_index"] - 1]
     image_path = os.path.join(images_folder, os.path.basename(selected_slide["image"]))
 
+    note_text = selected_slide["notes"]
+
+    if target_lang:
+        translated_text = translate_notes(note_text, target_lang)
+
     if vertical:
         st.image(image_path)
-        st.write(f"**Notes:**\n\n{selected_slide['notes']}")
+        if target_lang:
+            st.write(f"**Translated Notes ({selected_lang_display})**\n\n{translated_text}")
+            with st.expander("Show original notes"):
+                st.write(note_text)
+        else:
+            st.write(f"**Notes:**\n\n{note_text}")
     else:
         col1, col2 = st.columns([3, 1])
         with col1:
             st.image(image_path)
         with col2:
-            st.write(f"**Notes:**\n\n{selected_slide['notes']}")
+            if target_lang:
+                st.write(f"**Translated Notes ({selected_lang_display})**\n\n{translated_text}")
+                with st.expander("Show original notes"):
+                    st.write(note_text)
+            else:
+                st.write(f"**Notes:**\n\n{note_text}")
+
 else:
     st.warning("No slide data loaded yet.")
 
@@ -142,7 +195,7 @@ else:
 # Render footer with authors, institutions, and license logo in a single line
 columns_lic = st.columns((4,1))
 with columns_lic[0]:
-    st.markdown(f'Developed by {", ".join(author_list)} ({year}). <br> {institution_text}', unsafe_allow_html=True)  
+    st.markdown(f'Developed by {", ".join(author_list)} ({year}). <br> {institution_text}', unsafe_allow_html=True)
 with columns_lic[1]:
     try:
         st.image(Image.open("figs/CC_BY-SA_icon.png"))
