@@ -13,18 +13,18 @@ from PIL import Image
 year = 2025 
 authors = {
     "Thomas Reimann": [1],  # Author 1 belongs to Institution 1
-   #"Colleague Name": [1],  # Author 2 also belongs to Institution 1
+   #"Colleague Name": [2],  # Author 2 also belongs to Institution 1
 }
 institutions = {
     1: "TU Dresden",
-#   2: "Second Institution / Organization"
+   #2: "Second Institution / Organization"
 }
-index_symbols = ["¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"]
-author_list = [f"{name}{''.join(index_symbols[i-1] for i in indices)}" for name, indices in authors.items()]
-institution_list = [f"{index_symbols[i-1]} {inst}" for i, inst in institutions.items()]
-institution_text = " | ".join(institution_list)  # Institutions in one line
-# Header and title
+author_list = [f"{name}{''.join(f'<sup>{i}</sup>' for i in idxs)}" for name, idxs in authors.items()]
+institution_text = " | ".join([f"<sup>{i}</sup> {inst}" for i, inst in institutions.items()])
 
+
+
+# Header and title
 st.set_page_config(
     page_title="SlideJet - Convert",
     page_icon="🚀",
@@ -138,6 +138,14 @@ columns_lic = st.columns((4,1,1))
 with columns_lic[0]:
     st.markdown(f'Developed by {", ".join(author_list)} ({year}). <br> {institution_text}', unsafe_allow_html=True)
 with columns_lic[1]:
-    st.image('figs/SlideJet_Logo_Wide_small.png')
+    try:
+        img_sj = Image.open("figs/SlideJet_Logo_Wide_small.png")
+        st.image(img_sj)
+    except FileNotFoundError:
+        st.image("https://raw.githubusercontent.com/gw-inux/SlideJet/main/figs/SlideJet_Logo_Wide_small.png")
+    
 with columns_lic[2]:
-    st.image('figs/CC_BY-SA_icon.png')
+    try:
+        st.image(Image.open("figs/CC_BY-SA_icon.png"))
+    except FileNotFoundError:
+        st.image("https://raw.githubusercontent.com/gw-inux/SlideJet/main/figs/CC_BY-SA_icon.png")
