@@ -5,7 +5,7 @@
     },
     {
         "image": "images/slide_2.png",
-        "notes": "The instructions are divided in four main sections. \rFeatures: Gives an overview about SlideJet,\rRequirements: Explains what is necessary to use and run SlideJet,\rInstallation: Guides you about how to setup your computer to use SlideJet,\rInstructions to use SlideJet: Provides all informations to setup a workflow to make effective use of SlideJet."
+        "notes": "The instructions are divided in four main sections. \r- Features: Gives an overview about SlideJet,\r- Requirements: Explains what is necessary to use and run SlideJet,\r- Installation: Guides you about how to setup your computer to use SlideJet,\r- Instructions to use SlideJet: Provides all informations to setup a workflow to make effective use of SlideJet."
     },
     {
         "image": "images/slide_3.png",
