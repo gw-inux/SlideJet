@@ -2,26 +2,26 @@ import os
 import streamlit as st
 import json
 from pathlib import Path
+from PIL import Image
 
 # This is a generalized application to present Powerpoint slides and notes as slideshow through Streamlit
 # You can adapt the script with header and path to a specific presentation. To do this, just replace the initial informations.
 
-###
-# Authors, institutions, and year
+# --- Header content Copyright ---
 year = 2025 
 authors = {
     "Thomas Reimann": [1],  # Author 1 belongs to Institution 1
-   #"Colleague Name": [1],  # Author 2 also belongs to Institution 1
+   #"Colleague Name": [2],  # Author 2 also belongs to Institution 1
 }
 institutions = {
     1: "TU Dresden",
-#   2: "Second Institution / Organization"
+   #2: "Second Institution / Organization"
 }
-index_symbols = ["¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"]
-author_list = [f"{name}{''.join(index_symbols[i-1] for i in indices)}" for name, indices in authors.items()]
-institution_list = [f"{index_symbols[i-1]} {inst}" for i, inst in institutions.items()]
-institution_text = " | ".join(institution_list)  # Institutions in one line
-###
+author_list = [f"{name}{''.join(f'<sup>{i}</sup>' for i in idxs)}" for name, idxs in authors.items()]
+institution_text = " | ".join([f"<sup>{i}</sup> {inst}" for i, inst in institutions.items()])
+
+### SlideJet - Present
+
 # --- MUST be first: layout setup ---
 if "layout_choice" in st.session_state:
     st.session_state.layout_choice_SJ = st.session_state.layout_choice  # use app-wide layout
@@ -33,21 +33,24 @@ st.set_page_config(
     page_icon="🚀",
     layout=st.session_state.layout_choice_SJ
     )
+    
 ################
 # ADAPT HERE ###
 ################
 
+# Folder to your presentation
+
+presentation_folder = "slides/SlideJet_Overview"
+
 # Presettings - Here you can adjust the application to your specific application
-header_text = 'Module M1A - Review of key topics'
-subheader_text = 'Storage and Flow of water'
-presentation_folder = "SYMPLE25_M1C_3"
 
-#TODO: Use the parameters above in the texts
+header_text = 'SlideJet Presentation'
+subheader_text = 'Overview and Demo'
 
-#
+# --- Streamlit App Content ---
 st.title("Presentation Slides")
-st.header(':red-background[Module M1A - Review of key topics]')
-st.subheader('Storage and Flow of water', divider='red')
+st.header(f':red-background[{header_text}]')
+st.subheader(subheader_text, divider='red')
 
 st.markdown(""" 
     You can move through the slides with the left/right button. Alternatively, you can switch through the slides with the slider. Finally, you can use the toggle to switch to an vertical layout to eventually adapt the app to your device. 
@@ -137,8 +140,11 @@ else:
 
 '---'
 # Render footer with authors, institutions, and license logo in a single line
-columns_lic = st.columns((5,1))
+columns_lic = st.columns((4,1))
 with columns_lic[0]:
     st.markdown(f'Developed by {", ".join(author_list)} ({year}). <br> {institution_text}', unsafe_allow_html=True)
 with columns_lic[1]:
-    st.image('FIGS/CC_BY-SA_icon.png')
+    try:
+        st.image(Image.open("figs/CC_BY-SA_icon.png"))
+    except FileNotFoundError:
+        st.image("https://raw.githubusercontent.com/gw-inux/SlideJet/main/figs/CC_BY-SA_icon.png")
