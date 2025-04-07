@@ -36,11 +36,13 @@ if "layout_choice" in st.session_state:
 elif "layout_choice_SJ" not in st.session_state:
     st.session_state.layout_choice_SJ = "centered"  # fallback
 
+# !! IF THE PRESENTATION IS PART OF A MULTIPAGE APP - THIS NEEDS TO BE REMOVED !!
 st.set_page_config(
     page_title="SlideJet - Present",
     page_icon="🚀",
     layout=st.session_state.layout_choice_SJ
     )
+# !! REMOVE UNTIL HERE !!
     
 ################
 # ADAPT HERE ###
@@ -139,12 +141,14 @@ if slide_data:
     lc, cc, rc = st.columns((1,1,1))
     with lc:
         # --- Layout toggle switch ---
+        # !! IF THE PRESENTATION IS PART OF A MULTIPAGE APP - THIS NEEDS TO BE REMOVED !!
         wide_mode = st.toggle("Use wide layout", value=(st.session_state.layout_choice_SJ == "wide"))
         new_layout = "wide" if wide_mode else "centered"
         
         if new_layout != st.session_state.layout_choice_SJ:
             st.session_state.layout_choice_SJ = new_layout
             st.rerun()
+        # !! REMOVE UNTIL HERE !!
         vertical = st.toggle('Toggle to show notes below slides')
     with cc:
         selected_lang_display = st.selectbox("Language for speaker notes", options=language_names)
