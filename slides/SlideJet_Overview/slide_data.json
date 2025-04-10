@@ -1,7 +1,7 @@
 [
     {
         "image": "images/slide_1.png",
-        "notes": "The following slides briefly introduce SlideJet, a tool to transfer PowerPoint presentations into Streamlit slideshows.\rThe presentation provides an overview and gives instructions for installing and using SlideJet."
+        "notes": "The following slides briefly introduce SlideJet, a tool to transfer PowerPoint presentations into Streamlit slideshows.\rThe presentation provides an overview and gives instructions for installing and using SlideJet. **You can get SlideJet at https://github.com/gw-inux/SlideJet**"
     },
     {
         "image": "images/slide_2.png",

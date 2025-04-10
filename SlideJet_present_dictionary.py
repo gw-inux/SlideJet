@@ -23,6 +23,18 @@ protected_terms = {
         "Streamlit": "Streamlit",
         "Python": "Python"
     },
+    "it": {
+        "SlideJet": "SlideJet",
+        "PowerPoint": "PowerPoint",
+        "Streamlit": "Streamlit",
+        "Python": "Python"
+    },
+    "in": {
+        "SlideJet": "SlideJet",
+        "PowerPoint": "PowerPoint",
+        "Streamlit": "Streamlit",
+        "Python": "Python"
+    },
     # Extend for other languages
 }
 
