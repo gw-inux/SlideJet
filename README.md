@@ -28,18 +28,37 @@ To run **SlideJet-Convert**, you need the following installed locally (on **Wind
 
 - [Python](https://www.python.org/downloads/)
 - [Microsoft PowerPoint](https://www.microsoft.com/microsoft-365/powerpoint)
-- Python packages: `streamlit`, `pywin32`, and `pillow`
+- Python packages: `streamlit`, `pywin32`, `Pillow`, and `deep-translator`
   
 ---
 
 ### ⚙️ Installation and running the app
+
+If not already on your computer: Please install Python (e.g., through a distribution like Anaconda, or by downloading from www.python.org)
 
 Download the Python files **SlideJet_convert.py** and eventually **SlideJet_present.py** on a folder on your local computer
 
 Open a **Command Prompt** and run the following command:
 
 ```bash
-pip install streamlit pywin32 pillow
+pip install streamlit
+
+Then you add the required Python libraries with the command: pip install …
+ (https://docs.streamlit.io/get-started/installation)
+ 
+ ```bash
+pip install pywin32
+
+(this should include pythoncom and win32com)
+
+ ```bash
+pip install Pillow
+
+(this should include PIL)
+
+ ```bash
+pip install deep-translator
+
 ```
 Then start the app with the command window from the folder where SlideJet_convert.py is saved with:
 

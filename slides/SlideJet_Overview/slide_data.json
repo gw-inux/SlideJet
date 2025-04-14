@@ -21,7 +21,7 @@
     },
     {
         "image": "images/slide_6.png",
-        "notes": "All required tools are open source. The installation steps typically take a few minutes only.\r- If not already on your computer: Please install Python.\r- Then you add the required Python libraries with the command: pip install \u2026\r- Finally, go the GitHub and download the required SlideJet scripts."
+        "notes": "All required tools are open source. The installation steps typically take a few minutes only.\rThe installation is done with the command window:\rGo to the windows search / windows input section in your taskbar and write \u2018CMD\u2019\r\rIf not already on your computer: Please install Python (e.g., through a distribution like Anaconda, or by downloading from www.python.org)\rThen you add the required Python libraries with the command: pip install \u2026\rpip install streamlit (https://docs.streamlit.io/get-started/installation)\rpip install pywin32 (this should include pythoncom and win32com)\rpip install Pillow (this should include PIL)\rpip install deep-translator\r- Finally, go the GitHub and download the required SlideJet scripts. Save them in a local folder on your computer"
     },
     {
         "image": "images/slide_7.png",
