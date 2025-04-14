@@ -74,4 +74,4 @@ streamlit run SlideJet_convert.py
 A short tutorial and video guide (link coming soon) will walk you through the full process.
 With a decent internet connection, the entire setup takes just a few minutes.
 
-<img src="figs/SlideJet_Logo_Wide_small.png" alt="SlideJet Logo" width="300">
+<img src="FIGS/SlideJet_Logo_Wide_small.png" alt="SlideJet Logo" width="300">
