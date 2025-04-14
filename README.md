@@ -42,24 +42,27 @@ Open a **Command Prompt** and run the following command:
 
 ```bash
 pip install streamlit
+```
 
 Then you add the required Python libraries with the command: pip install …
  (https://docs.streamlit.io/get-started/installation)
  
  ```bash
 pip install pywin32
+```
 
 (this should include pythoncom and win32com)
 
  ```bash
 pip install Pillow
+```
 
 (this should include PIL)
 
  ```bash
 pip install deep-translator
-
 ```
+
 Then start the app with the command window from the folder where SlideJet_convert.py is saved with:
 
 ```bash
