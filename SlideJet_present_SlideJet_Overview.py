@@ -61,7 +61,7 @@ st.header(f':red-background[{header_text}]')
 st.subheader(subheader_text, divider='red')
 
 st.markdown(""" 
-    You can move through the slides with the left/right button. Alternatively, you can switch through the slides with the slider. Finally, you can use the toggle to switch to an vertical layout to eventually adapt the app to your device. 
+    You can move through the slides with the **+/- button**. Alternatively, you can switch directly to a slide by inserting the slide number. There is an optin to translate the speaker notes of the slides to your favorite language. If you translate the speaker notes, the original text is still available below the translation. Finally, you can use the toggle to switch to an vertical layout to eventually adapt the appearance of the app to your device. 
         """)
 
 # Define the default folder - the structure is fix and provided by the convert_ppt_slides.py application
