@@ -5,42 +5,42 @@
     },
     {
         "image": "images/slide_2.png",
-        "notes": "The instructions are divided in four main sections. \r- Features: Gives an overview about SlideJet,\r- Requirements: Explains what is necessary to use and run SlideJet,\r- Installation: Guides you about how to setup your computer to use SlideJet,\r- Instructions to use SlideJet: Provides all informations to setup a workflow to make effective use of SlideJet."
+        "notes": "The instructions are divided in four main sections. \r- Features: Gives an overview about SlideJet,\r- Requirements: Explains what is necessary to use and run SlideJet,\r- Installation: Guide about how to setup your computer to use SlideJet,\r- Instructions for using SlideJet: Provides information to setup a workflow to make effective use of SlideJet."
     },
     {
         "image": "images/slide_3.png",
-        "notes": "SlideJet Features:\r- Convert PowerPoint slides and notes into web-optimized figures and data.\r- Display slides directly in a Streamlit app.\r- Show speaker notes alongside each slide.\r- Provides multi-language support to display the speaker notes in a user-defined language.\r- Output format is optimized for deployment on GitHub Pages or other static hosts.\r- Ideal for teaching, workshops, training materials, and documentation."
+        "notes": "SlideJet Features:\r- Converts PowerPoint slides and notes into web-optimized figures and data.\r- Displays slides directly in a Streamlit app.\r- Shows speaker notes alongside each slide.\r- Provides multi-language support to display the speaker notes in a user-defined language.\r- Output format is optimized for deployment on GitHub Pages or other static hosts.\r- Ideal for teaching, workshops, training materials, and documentation."
     },
     {
         "image": "images/slide_4.png",
-        "notes": "SlideJet needs the script \r- SlideJet_convert.py\ron your local computer. Then is extracts the information from your presentation with Powerpoint and place them a folder that contains a picture of each slide together with a JSON file that contains all notes. Subsequently, the \r- SlideJet_present.py\rscript delivers your slides and notes as slideshow. The presentation script is specific for each presentation and can be finally deployed through Streamlit Community cloud (or similar) as web application."
+        "notes": "SlideJet needs the script \r- SlideJet_convert.py\ron your local computer. Then it extracts the information from your presentation with PowerPoint and place it in a folder that contains a picture of each slide together with a JSON file that contains all notes. Subsequently, the \r- SlideJet_present.py\rscript delivers your slides and notes as slideshow. The presentation script is specific for each presentation and can be deployed through the Streamlit Community cloud (or similar) as a web application."
     },
     {
         "image": "images/slide_5.png",
-        "notes": "SlideJet is an open-source tool with minimum requirements.\r- The SlideJet_convert.py is required on your local computer.\r- Powerpoint is required to open and process your pptx file. \r- Python and Streamlit needs to installed to execute SlideJet_convert.py on your local computer.\rTo present the slideshow as webapplication, you need:\r- The adapted SlideJet_present_XYZ.py (or any other user-defined name) presentation script that contains the slideshow.\r- A GitHub account (or similar to save your SlideJet_present_XYZ.py script and the associated slide data).\r- An account on Streamlit Community cloud (or similar) to deploy the SlideJet presentation script as web application."
+        "notes": "SlideJet is an open-source tool with minimum requirements.\r- The SlideJet_convert.py script is required on your local computer.\r- Powerpoint is required to open and process your pptx file. \r- Python and Streamlit need to be installed to execute SlideJet_convert.py on your local computer.\rTo present the slideshow as a web application, you need:\r- The adapted SlideJet_present_XYZ.py (or any other user-defined name) presentation script that contains the slideshow.\r- A GitHub account (or similar to save your SlideJet_present_XYZ.py script and the associated slide data).\r- An account on the Streamlit Community cloud (or similar) to deploy the SlideJet presentation script as a web application."
     },
     {
         "image": "images/slide_6.png",
-        "notes": "All required tools are open source. The installation steps typically take a few minutes only.\rThe installation is done with the command window:\rGo to the windows search / windows input section in your taskbar and write \u2018CMD\u2019\r\rIf not already on your computer: Please install Python (e.g., through a distribution like Anaconda, or by downloading from www.python.org)\rThen you add the required Python libraries with the command: pip install \u2026\rpip install streamlit (https://docs.streamlit.io/get-started/installation)\rpip install pywin32 (this should include pythoncom and win32com)\rpip install Pillow (this should include PIL)\rpip install deep-translator\r- Finally, go the GitHub and download the required SlideJet scripts. Save them in a local folder on your computer"
+        "notes": "All required tools are open source. The installation steps typically take only a few minutes.\rThe installation is done in the command window:\r- Go to the windows search / windows input section in your taskbar and type \u2018CMD\u2019\r\u000bIf not already on your computer: Install Python (e.g., through a distribution like Anaconda, or by downloading from www.python.org)\rThen you add the required Python libraries with the command: pip install \u2026\rpip install streamlit (https://docs.streamlit.io/get-started/installation)\rpip install pywin32 (this should include pythoncom and win32com)\rpip install Pillow (this should include PIL)\rpip install deep-translator\r- Finally, go to GitHub and download the required SlideJet scripts. Save them in a local folder on your computer."
     },
     {
         "image": "images/slide_7.png",
-        "notes": "Open a command window in the folder where the SlideJet_convert.py script is saved.\rType the command \u2018streamlit run SlideJet_convert.py\u2019. Subsequently a browser window will open with the SlideJet \u2013 Convert application."
+        "notes": "Open a command window in the folder where the SlideJet_convert.py script is saved.\rType the command \u2018streamlit run SlideJet_convert.py\u2019. Subsequently, a browser window will open with the SlideJet \u2013 Convert application."
     },
     {
         "image": "images/slide_8.png",
-        "notes": "Now, browse to the *.pptx presentation to convert. Alternatively, you can drag-and-drop a file here.\rThe SlideJet \u2013 Convert application will ask for a folder name. The name of the presentation file is the initial setting for the folder name. Now you can start the conversation with the \u2018Convert to Slideshow Data\u2019 button.\rAfter the successful conversion you will find in the previously defined folder the slideshow as images and a JSON file named slide_data that contains the notes."
+        "notes": "Now, browse to the *.pptx presentation to be converted. Alternatively, you can drag-and-drop a file here.\rThe SlideJet \u2013 Convert application will ask for a folder name. The name of the presentation file is the initial setting for the folder name. Then you can start the conversation with the \u2018Convert to Slideshow Data\u2019 button.\rAfter the successful conversion you will find the slideshow as images and a JSON file named slide_data that contains the notes in the previously defined folder."
     },
     {
         "image": "images/slide_9.png",
-        "notes": "After the conversion you can prepare your individual slideshow presentation for Streamlit. \r- You start with the SlideJet_present.py as TEMPLATE.\r- Typically, you adjust the title and header of the presentation AND you define the path to the folder with the slide information, that SlideJet_convert.py generated.\r- If you finished your modifications, save the script with a name of your choice. This Streamlit Script is your slideshow presentation."
+        "notes": "After the conversion you can prepare your individual slideshow presentation for Streamlit. \r- Start with the SlideJet_present.py as TEMPLATE.\r- Typically, you adjust the title and header of the presentation AND you define the path to the folder with the slide information, that SlideJet_convert.py generated.\r- When finished making modifications, save the script with a name of your choice. This Streamlit Script is your slideshow presentation."
     },
     {
         "image": "images/slide_10.png",
-        "notes": "- If the slideshow script is part of a multipage application, make sure that you remove the lines from the template script, that define the page properties (because this is already done in a multipage app)."
+        "notes": "- If the slideshow script is part of a multi-page application, make sure that you remove the lines that define the page properties from the template script (because this is already done in a multipage app)."
     },
     {
         "image": "images/slide_11.png",
-        "notes": "The specifically name presentation script can be\r- executed local (command window at the specific folder, then type \u2018Streamlit run NAME_OF_YOUR_FILE.py).\r- If you want to deliver your presentation as web application, safe the presentation script and the files in an repository like GitHub and deploy through e.g., the Streamlit Community cloud service."
+        "notes": "The specifically named presentation script can be\r- executed locally (open command window to the specific folder, then type \u2018Streamlit run NAME_OF_YOUR_FILE.py).\r- and, if you want to deliver your presentation as a web application and deploy it through e.g., the Streamlit Community cloud service, then save the presentation script and the files in a repository like GitHub"
     }
 ]
