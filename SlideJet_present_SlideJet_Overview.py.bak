@@ -12,8 +12,8 @@ def translate_notes(text, target_lang):
     except Exception as e:
         return f"[Translation failed: {e}]"
 
-# This is a generalized application to present PowerPoint slides and notes as slideshow through Streamlit
-# You can adapt the script with header and path to a specific presentation. To do this, just replace the initial information.
+# This is a generalized application to present Powerpoint slides and notes as slideshow through Streamlit
+# You can adapt the script with header and path to a specific presentation. To do this, just replace the initial informations.
 
 # --- Header content Copyright ---
 year = 2025 
@@ -61,7 +61,7 @@ st.header(f':red-background[{header_text}]')
 st.subheader(subheader_text, divider='red')
 
 st.markdown(""" 
-    You can move through the slides with the **+/- button**. Alternatively, you can switch directly to a slide by inserting the slide number. There is an optin to translate the speaker notes of the slides to your favorite language. If you translate the speaker notes, the original text is still available below the translation. Finally, you can use the toggle to switch to a vertical layout to adapt the appearance of the application to your device. 
+    You can move through the slides with the **+/- button**. Alternatively, you can switch directly to a slide by inserting the slide number. There is an optin to translate the speaker notes of the slides to your favorite language. If you translate the speaker notes, the original text is still available below the translation. Finally, you can use the toggle to switch to an vertical layout to eventually adapt the appearance of the app to your device. 
         """)
 
 # Define the default folder - the structure is fix and provided by the convert_ppt_slides.py application
