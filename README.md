@@ -63,6 +63,14 @@ pip install Pillow
 pip install deep-translator
 ```
 
+ ```bash
+pip install img2pdf
+```
+
+ ```bash
+pip install pypdf
+```
+
 Then start the app with the command window from the folder where SlideJet_convert.py is saved with:
 
 ```bash
