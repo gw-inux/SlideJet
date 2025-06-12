@@ -2,3 +2,4 @@ streamlit
 streamlit_book
 streamlit_extras
 deep_translator
+img2pdf
