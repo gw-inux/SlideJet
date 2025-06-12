@@ -12,9 +12,22 @@ authors:
   - name: Thomas Reimann
     orcid: 0000-0000-0000-0000  # <-- Replace with your real ORCID
     affiliation: 1
+  - name: Nils Wallenberg
+    orcid: 0000-0000-0000-0000  # <-- Replace with your real ORCID
+    affiliation: 2
+  - name: Markus Giese
+    orcid: 0000-0000-0000-0000  # <-- Replace with your real ORCID
+    affiliation: 2
+  - name: Eileen Poeter
+    orcid: 0000-0002-1234-5678  # Replace with actual ORCID
+    affiliation: 3
 affiliations:
   - name: TU Dresden, Institute for Groundwater Management
     index: 1
+  - name: University of Gothenburg, Department of Earth Sciences
+    index: 2
+  - name: Colorado School of Mines, Department of Geology and Geological Engineering
+    index: 3
 date: YYYY-MM-DD  # <-- Replace with the final submission date
 bibliography: paper.bib
 ---
