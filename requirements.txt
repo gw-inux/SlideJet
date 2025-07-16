@@ -1,5 +1,7 @@
 streamlit
-streamlit_book
-streamlit_extras
-deep_translator
-yaml
+PyYAML
+Pillow
+img2pdf
+markdown
+deep-translator
+reportlab
