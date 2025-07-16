@@ -2,11 +2,10 @@ import os
 import tempfile
 import shutil
 import json
-
+import yaml
 import streamlit as st
 import pythoncom
 import win32com.client
-
 from PIL import Image
 
 ###
@@ -23,6 +22,23 @@ institutions = {
 author_list = [f"{name}{''.join(f'<sup>{i}</sup>' for i in idxs)}" for name, idxs in authors.items()]
 institution_text = " | ".join([f"<sup>{i}</sup> {inst}" for i, inst in institutions.items()])
 
+def save_yaml_config(yaml_output_path, slides_subfolder, header_text, subheader_text, mode, yaml_repo_path=None):
+    if mode == "Local use":
+        presentation_folder = slides_subfolder
+    else:  # Online use (Streamlit Cloud)
+        if yaml_repo_path is None:
+            raise ValueError("For online use, 'yaml_repo_path' must be provided.")
+        # Construct path inside the repo
+        presentation_folder = os.path.join(yaml_repo_path, slides_subfolder).replace("\\", "/")
+
+    config = {
+        "presentation_folder": presentation_folder,
+        "header_text": header_text,
+        "subheader_text": subheader_text
+    }
+
+    with open(yaml_output_path, "w") as f:
+        yaml.dump(config, f, default_flow_style=False, sort_keys=False)
 
 
 # Header and title
@@ -49,13 +65,37 @@ if uploaded_file:
     # Extract filename (without extension)
     pptx_filename = os.path.splitext(uploaded_file.name)[0]
 
-    # Prompt user for folder name with the filename as the placeholder
-    custom_folder = st.text_input("Enter a folder name for saving slides", pptx_filename)
+    # SlideJet_present folder (YAML will be saved here)
+    present_folder = st.text_input(
+        "Enter the folder where SlideJet_present is located (YAML will be saved here)",
+        value=os.getcwd()
+    )
+    deployment_mode = st.radio("Deployment Mode",["Local use", "Online use (Streamlit Cloud)"], index=0)
+    if deployment_mode == "Online use (Streamlit Cloud)":
+        yaml_repo_path = st.text_input(
+            "Enter the repository-relative path to the YAML file (e.g., `project\presentations`)",
+            value=""
+        )
+    
+    # Slides folder (relative to SlideJet_present folder)
+    slides_subfolder = st.text_input(
+        "Enter the relative path where the slides will be saved (from YAML location)",
+        value=os.path.join("slides", pptx_filename).replace("\\", "/")
+    )
+    # Compute the absolute output directory
+    slides_absolute_path = os.path.join(present_folder, slides_subfolder)
+    
+    default_header = f"{pptx_filename}"
+    default_subheader = "Interactive Slideshow"
+    header_text = st.text_input("Enter header text (main title)", value=default_header)
+    subheader_text = st.text_input("Enter subheader text (subtitle or description)", value=default_subheader)
+
 
     # Define output folders dynamically
-    OUTPUT_DIR = os.path.abspath(custom_folder)
+    OUTPUT_DIR = slides_absolute_path
     IMAGE_DIR = os.path.join(OUTPUT_DIR, "images")
-    JSON_FILE = os.path.join(OUTPUT_DIR, "slide_data.json")  # Streamlit-Ready JSON File
+    JSON_FILE = os.path.join(OUTPUT_DIR, "slide_data.json")
+
 
     def clear_old_files(folder_path):
         """Deletes all files in the folder before writing new ones."""
@@ -110,11 +150,6 @@ if uploaded_file:
             json.dump(slide_data, f, indent=4)
 
     if st.button("Convert to Slideshow Data"):
-#        # Save uploaded file temporarily
-#        temp_ppt_path = os.path.join(tempfile.gettempdir(), uploaded_file.name)
-#        with open(temp_ppt_path, "wb") as f:
-#            f.write(uploaded_file.getbuffer())
-
         # Save uploaded file to a unique temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pptx") as tmp_file:
             tmp_file.write(uploaded_file.getbuffer())
@@ -129,6 +164,39 @@ if uploaded_file:
         if slide_data:
             st.success(f"Slides and notes successfully saved in `{OUTPUT_DIR}`.")
             st.success(f"Slide data JSON saved for Streamlit slideshow in `{JSON_FILE}`.")
+            
+            # Write YAML file in parent folder
+#           yaml_file = os.path.join(script_dir, f"{pptx_filename}_slidejet_config.yaml")
+            yaml_file = os.path.join(present_folder, f"{pptx_filename}_slidejet_config.yaml")
+            # Compute correct relative path from script dir to output dir
+            #slides_relative_path = os.path.relpath(OUTPUT_DIR, script_dir).replace("\\", "/")
+#           save_yaml_config(slides_relative_path, yaml_file, header_text, subheader_text)
+            if deployment_mode == "Online use (Streamlit Cloud)":
+                save_yaml_config(
+                    yaml_output_path=yaml_file,
+                    slides_subfolder=slides_subfolder,
+                    header_text=header_text,
+                    subheader_text=subheader_text,
+                    mode=deployment_mode,
+                    yaml_repo_path=yaml_repo_path
+                )
+            else:
+                save_yaml_config(
+                    yaml_output_path=yaml_file,
+                    slides_subfolder=slides_subfolder,
+                    header_text=header_text,
+                    subheader_text=subheader_text,
+                    mode=deployment_mode
+                )
+
+
+            st.success(f"YAML config for SlideJet Present saved as `{yaml_file}`.")
+            st.markdown("""
+            #### Next steps
+            Now you will find the slides, the speaker notes (as *.json file), and the YAML file in the generated folders - see messages above. The see and present the slides, use the **SlideJet_present**.py application with the generated YAML file. You have two options:
+            (1) Directly refer to the YAML file from the SlideJet_present.py application, or
+            (2) Select and load the YAML file from the SlideJet_present.py application.
+            """)
         
         # Delete temporary file
         os.remove(temp_ppt_path)
