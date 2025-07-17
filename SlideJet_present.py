@@ -17,14 +17,17 @@ from reportlab.lib.units import cm
 
 ###########################
 # EVENTUALLY ADAPT HERE:
-#
-# PART OF A MULTIPAGE-APP? REMOVE THE FOLLOWING LINE
+
+# PART OF A MULTIPAGE-APP?
+# THEN REMOVE THE FOLLOWING LINE
 st.set_page_config(page_title="SlideJet - Present", page_icon="🚀")
-#
+
 # --- Default YAML path, use / ---
 DEFAULT_YAML = "example.yaml"
 
-# --- Proxy ID --- This should be a unique ID if the app is used multiple times in a multipage app (string required)
+# --- Proxy ID --- This should be
+# an unique ID if the app is used
+# multiple times in a multipage app (string required)
 app_id = "app01"
 #
 ###########################
@@ -190,11 +193,14 @@ presentation_folder_key = f"{app_id}_presentation_folder"
 images_folder_key = f"{app_id}_images_folder"
 header_text_key = f"{app_id}_header_text"
 subheader_text_key = f"{app_id}_subheader_text"
-
+default_yaml_key = f"{app_id}_default_yaml"
 
 # --- Initialize reset mode ---
 if reset_key not in st.session_state:
     st.session_state[reset_key] = False
+    
+if default_yaml_key not in st.session_state:
+    st.session_state[default_yaml_key] = DEFAULT_YAML
 
 # --- Configuration loading / depending if it's the start or a reset ---
 if config_key not in st.session_state or st.session_state[config_key] is None:
@@ -202,7 +208,8 @@ if config_key not in st.session_state or st.session_state[config_key] is None:
     if st.session_state[reset_key]:
         # User wants to load a new YAML, show uploader
         st.session_state[config_key] = None
-        st.warning("Please upload a new SlideJet YAML file.")
+        st.warning("Please upload a new SlideJet YAML file. Alternatively, you can use the Default YAML again.")
+        
         uploaded_yaml = st.file_uploader("Upload your slidejet_config.yaml", type=["yaml", "yml"])
 
         if uploaded_yaml is not None:
@@ -217,6 +224,20 @@ if config_key not in st.session_state or st.session_state[config_key] is None:
                 st.stop()
             st.session_state[reset_key] = False  # Done loading new config
             st.rerun()  # Restart to apply
+        
+        col1, col2, col3 = st.columns((1,1,1))
+        with col2:
+            if st.button("🔄 Use Default YAML again"):
+                try:
+                    with open(st.session_state[default_yaml_key], "r", encoding="utf-8") as f:
+                        st.session_state[config_key] = yaml.safe_load(f)
+                    validate_config(st.session_state[config_key])
+                    st.session_state[reset_key] = False
+                    st.success("Default YAML loaded.")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error loading default YAML: {e}")
+                    st.stop()
 
         if st.session_state[config_key] is None:
             st.stop()
