@@ -16,8 +16,10 @@ SlideJet consists of two components:
 - Convert PowerPoint slides and notes into web-optimized figures and data.
 - Display slides directly in a Streamlit app.
 - Show speaker notes alongside each slide.
+- Speaker notes can be translated in different languages.
 - Designed for future multi-language support (automatic translation planned).
 - Output format is optimized for deployment on GitHub Pages or other static hosts.
+- Slides with speaker notes can be transfered in PDF for user download.
 - Ideal for teaching, workshops, training materials, and documentation.
 
 ---
@@ -73,5 +75,7 @@ streamlit run SlideJet_convert.py
 
 A short tutorial and video guide (link coming soon) will walk you through the full process.
 With a decent internet connection, the entire setup takes just a few minutes.
+
+The Presentation [**SlideJet - Overview**](https://slidejet-overview.streamlit.app/) introduces the app and provide further guidance on use.
 
 <img src="FIGS/SlideJet_Logo_Wide_small.png" alt="SlideJet Logo" width="300">
