@@ -104,7 +104,8 @@ if uploaded_file:
     """
     )
     # Extract filename (without extension)
-    pptx_filename = os.path.splitext(uploaded_file.name)[0]
+    #pptx_filename = os.path.splitext(uploaded_file.name)[0]
+    pptx_filename = os.path.splitext(uploaded_file.name)[0].replace(" ", "_")
 
     # SlideJet_present folder (YAML will be saved here)
     present_folder = st.text_input(
