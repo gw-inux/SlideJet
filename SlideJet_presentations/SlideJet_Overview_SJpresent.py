@@ -23,12 +23,13 @@ from reportlab.lib.units import cm
 st.set_page_config(page_title="SlideJet - Present", page_icon="🚀")
 
 # --- Default YAML path, use / ---
-DEFAULT_YAML = "example.yaml"
+#DEFAULT_YAML = "example.yaml"
+DEFAULT_YAML = "SlideJet_Overview_SJconfig.yaml"
 
 # --- Proxy ID --- This should be
 # an unique ID if the app is used
 # multiple times in a multipage app (string required)
-app_id = "app01"
+app_id = "app_01"
 #
 ###########################
 
@@ -183,7 +184,7 @@ def add_notes_with_overlay(slides, images, output_pdf, trans_lan=None, font_size
     doc.build(elements)
 
 # --- Print Title
-st.title("Presentation Slides")
+#st.title("Presentation Slides")
 
 # --- Define keys ---
 reset_key = f"{app_id}_reset_mode"
@@ -322,8 +323,8 @@ if st.session_state[slide_data_key] is None:
                 st.stop()
 
 # --- Print Title and Header 
-st.header(f':red-background[{st.session_state[header_text_key]}]')
-st.subheader(st.session_state[subheader_text_key], divider='red')
+st.header(f':blue[{st.session_state[header_text_key]}]')
+st.subheader(st.session_state[subheader_text_key], divider='blue')
 
 # --- Language selection ---
 languages = {

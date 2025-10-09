@@ -13,7 +13,7 @@
     },
     {
         "image": "images/slide_4.png",
-        "notes": "SlideJet needs the script \r-> SlideJet_convert.py\ron your local computer. Then it extracts the information from your presentation with PowerPoint and place it in a folder that contains a picture of each slide together with a JSON file that contains all notes.\r\rSubsequently, the \r- SlideJet_present.py\rscript delivers your slides and notes as slideshow. The presentation script is specific for each presentation and can be deployed through the Streamlit Community cloud (or similar) as a web application. The script also allows to generate a PDF-file of your slides along with speaker notes for download."
+        "notes": "SlideJet needs the script \r\uf092 SlideJet_convert.py\ron your local computer. Then it extracts the information from your presentation with PowerPoint and place it in a folder that contains a picture of each slide together with a JSON file that contains all notes.\r\rSubsequently, the \r- SlideJet_present.py\rscript delivers your slides and notes as slideshow. The presentation script is specific for each presentation and can be deployed through the Streamlit Community cloud (or similar) as a web application. The script also allows to generate a PDF-file of your slides along with speaker notes for download."
     },
     {
         "image": "images/slide_5.png",
