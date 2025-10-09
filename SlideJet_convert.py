@@ -87,64 +87,61 @@ def emit_present_script(
     template_name: str = "SlideJet_present_template.py",
     multipage: bool = False,
     app_id: str = "app_01",
+    yaml_repo_path: str | None = None,   # repo-root–relative dir for ONLINE use
 ) -> Path:
     """
-    Simple version with two options:
-      - multipage=True  -> comment out st.set_page_config(...) in the presenter
-      - app_id          -> injected into the presenter (via __APP_ID__ or regex)
+    Emit a presenter script next to the YAML.
+
+    - If yaml_repo_path is given (Online use), the presenter will reference:
+        f"{yaml_repo_path}/{<yaml_basename>}"
+      which matches Streamlit Cloud's CWD = repo root.
+    - Otherwise (Local use), it references a path relative to the presenter file.
+    - If multipage=True, the st.set_page_config(...) line is commented out.
+    - app_id is injected for namespacing (expects __APP_ID__ placeholder or literal APP_ID).
     """
     yaml_path = Path(yaml_file).resolve()
     yaml_dir  = yaml_path.parent
     yaml_stem = yaml_path.stem
 
-    # Derive a clean base name WITHOUT the trailing 'SJconfig' (case-insensitive, with optional -/_/.)
-    base_name = re.sub(r'(?i)[\-\_\.]?SJconfig$', '', yaml_stem).strip()
-    if not base_name:  # safety fallback
-        base_name = yaml_stem
+    # Derive a clean base name WITHOUT trailing 'SJconfig' (case-insensitive, optional -,_,.)
+    base_name = re.sub(r'(?i)[\-\_\.]?SJconfig$', '', yaml_stem).strip() or yaml_stem
 
-    # presenter goes next to the YAML
+    # Presenter goes next to the YAML
     target_dir = yaml_dir
     target_dir.mkdir(parents=True, exist_ok=True)
 
-    # load template text
+    # Load template text
     if template_source:
         tpl_text = Path(template_source).read_text(encoding="utf-8")
     else:
         tpl_text = (Path(__file__).parent / template_name).read_text(encoding="utf-8")
 
-    # compute relative YAML path from presenter location
-    rel_yaml = Path(os.path.relpath(yaml_path, start=target_dir)).as_posix()
+    # Compute YAML path to inject
+    yaml_basename = yaml_path.name
+    if yaml_repo_path:
+        repo_rel_dir = Path(yaml_repo_path.strip("/\\")).as_posix()
+        injected_yaml = f"{repo_rel_dir}/{yaml_basename}"
+    else:
+        # Local use: relative to presenter location
+        injected_yaml = Path(os.path.relpath(yaml_path, start=target_dir)).as_posix()
 
-    # --- token replacements (lightweight)
+    # --- Token replacements (simple)
     out_text = tpl_text
-    out_text = out_text.replace("__SLIDEJET_YAML__", rel_yaml)
+    out_text = out_text.replace("__SLIDEJET_YAML__", injected_yaml)
     out_text = out_text.replace("__IN_MULTIPAGE__", "True" if multipage else "False")
     out_text = out_text.replace("__PAGE_TITLE__", base_name.replace("_", " "))
     out_text = out_text.replace("__APP_ID__", app_id)
 
-    # robust fallbacks: patch literal constants if template lacks placeholders
+    # --- Robust fallbacks (if template lacks placeholders)
     # YAML_PATH = "..."
-    out_text = re.sub(
-        r'(YAML_PATH\s*=\s*)(["\']).*?\2',
-        rf'\1"{rel_yaml}"',
-        out_text
-    )
+    out_text = re.sub(r'(YAML_PATH\s*=\s*)(["\']).*?\2', rf'\1"{injected_yaml}"', out_text)
     # IN_MULTIPAGE = True/False
-    out_text = re.sub(
-        r'(IN_MULTIPAGE\s*=\s*)(True|False)',
-        rf'\1{"True" if multipage else "False"}',
-        out_text
-    )
+    out_text = re.sub(r'(IN_MULTIPAGE\s*=\s*)(True|False)', rf'\1{"True" if multipage else "False"}', out_text)
     # APP_ID = "..."
-    out_text = re.sub(
-        r'(APP_ID\s*=\s*)(["\']).*?\2',
-        rf'\1"{app_id}"',
-        out_text
-    )
+    out_text = re.sub(r'(APP_ID\s*=\s*)(["\']).*?\2', rf'\1"{app_id}"', out_text)
 
-    # --- if multipage, comment out st.set_page_config(...) line
+    # --- If multipage, comment out st.set_page_config(...) line
     if multipage:
-        # comment out any line that starts with st.set_page_config(…)
         out_text = re.sub(
             r'^\s*st\.set_page_config\([^\n]*\)\s*$',
             lambda m: f'# {m.group(0)}',
@@ -152,7 +149,7 @@ def emit_present_script(
             flags=re.MULTILINE
         )
 
-    # write presenter: <BASE>_SJpresent.py
+    # Write presenter: <BASE>_SJpresent.py
     present_name = f"{base_name}_SJpresent.py"
     out_file = target_dir / present_name
     out_file.write_text(out_text, encoding="utf-8")
@@ -336,6 +333,7 @@ if uploaded_file:
                         template_source=template_path,
                         multipage=multipage_true,
                         app_id=app_id,
+                        yaml_repo_path=yaml_repo_path if deployment_mode == "Online use (Streamlit Cloud)" else None,
                     )
                     st.success(f"SlideJet_present script created in: `{out_present}`")
 
