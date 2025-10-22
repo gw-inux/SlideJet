@@ -23,15 +23,17 @@ def clear_old_files(folder_path):
     """Deletes all files in the folder before writing new ones."""
     if os.path.exists(folder_path):
         shutil.rmtree(folder_path)  # Delete everything inside the folder
-    os.makedirs(folder_path)  # Recreate the folder
+    os.makedirs(folder_path)        # Recreate the folder
 
 def convert_ppt_to_images_using_powerpoint(ppt_path, image_dir):
     """Uses PowerPoint COM automation to export full slides as images"""
     pythoncom.CoInitialize()
     powerpoint = win32com.client.Dispatch("PowerPoint.Application")
-    powerpoint.Visible = 1  # Run PowerPoint in the background
+    powerpoint.Visible = 1          # Run PowerPoint in the background
+    
     # Open the presentation
     presentation = powerpoint.Presentations.Open(ppt_path, WithWindow=False)
+    
     # Ensure output directory exists and clear old images
     clear_old_files(image_dir)
     slide_data = []
@@ -41,6 +43,7 @@ def convert_ppt_to_images_using_powerpoint(ppt_path, image_dir):
         slide_path = os.path.join(image_dir, slide_filename)
         try:
             presentation.Slides(i).Export(slide_path, "PNG")
+            
             # Extract notes
             notes = "No notes"
             if presentation.Slides(i).NotesPage.Shapes.Count > 1:
@@ -68,6 +71,7 @@ def save_yaml_config(yaml_output_path, slides_subfolder, header_text, subheader_
     else:  # Online use (Streamlit Cloud)
         if yaml_repo_path is None:
             raise ValueError("For online use, 'yaml_repo_path' must be provided.")
+        
         # Construct path inside the repo
         presentation_folder = os.path.join(yaml_repo_path, slides_subfolder).replace("\\", "/")
 
@@ -163,13 +167,17 @@ st.set_page_config(
     page_icon="🚀",
 )
 
-st.title("🚀 SlideJet - Convert")
+st.title("🚀 SlideJet-Convert")
 st.header("PowerPoint to Streamlit-Ready Slideshow", divider= "green")
 
 st.markdown(""" 
-    SlideJet-convert allows you to transfer a Powerpoint presentation with notes into *.png graphics and a JSON file that contains the slide notes. You can upload any Powerpoint file. Subsequently, you can define the name of the folder where the tools save the JSON file and the 'images' folder.
+    ***SlideJet*** allows you to transfer a ***Powerpoint*** presentation with speaker notes into a ***Streamlit slideshow***. The transfer is done with the :green[***SlideJet-Convert***] tool.
     
-    SlideJet works with PowerPoint in the background to convert your slides. **Now** it's a good moment to safe your open presentations in case of unexpected troubles with PowerPoint.
+    SlideJet works with any Powerpoint file.
+    
+    Subsequently, you can select and upload your presentation. Then, you can define the paths and folder name where :green[***SlideJet-Convert***] will save the data for the slideshow presentation.
+    
+    ***SlideJet*** works with running ***Powerpoint*** in the background to convert your slides. :red[**Now**] it's a good moment to safe your open presentations in case of unexpected troubles with Powerpoint.
         """)
 
 st.subheader('First step: Upload the presentation file', divider = 'green')
@@ -180,51 +188,89 @@ uploaded_file = st.file_uploader("Upload a PowerPoint file", type=["pptx"])
 if uploaded_file:
     
     # --- Step: Define Paths 
-    st.subheader('Next steps: Define paths', divider = 'green')
+    st.subheader('Next step: Define paths', divider = 'green')
     st.markdown("""
-    #### Local path
-    :green[**SlideJet-Convert**] will generate slideshow data that can be seen by the :orange[**SlideJet-Present**] app. The YAML-file, which contains some settings for :orange[**SlideJet-Present**], is saved in the same folder. Define the path of this folder (on your computer) below:
+    #### Local path - Place to save SlideJet data on your device - 
+    
+    ***SlideJet-***:green[***Convert***] will generate slideshow data that can be seen with the ***SlideJet-***:blue[***Present***] app. For this, ***SlideJet-***:green[***Convert***] transfers your PowerPoint presentation into images (= your slides) and a JSON file (= your speaker notes). It also prepares a _presentation-specific_ ***SlideJet-***:blue[***Present***] script (= the app) together with a ***YAML-file*** that contains the configuration data for this app.
+    
+    In conclusion, the following files are generate:
+    - (1) a ***SlideJet-***:blue[***Present***] script = a file with the ending :grey[**FILENAME**]**_SJpresent.py**
+    - (2) a ***YAML-file*** configuration dataset = a file with the ending :grey[**FILENAME**]**_SJconfig.yaml**
+    - (3) a folder, usually named **SJ_Data**, with
+       - (3a) a subfolder with the presentation slides as *.png images,
+       - (3b) the speaker notes as JSON-file.
+    
+    The **SJ_Data** folder can contain subfolders to accomodate several presentations with their respective data.
+    
+    A general and recommended folder structure looks like 
     """
     )
     
+    tree = """
+    📁 project_root/                          # e.g., local copy of your GitHub repo
+    └── 📁 SlideJet_Presentations/            # folder in the repo for presentations
+        ├── 📁 SJ_Data/                       # folder containing SlideJet data
+        │   └── 📁 [PRESENTATION_NAME]/       # individual folder for a presentation
+        │       ├── 📁 images/                # (3a) folder with exported slides
+        │       │   ├── slide_1.png           # image file of the slides
+        │       │   ├── slide_2.png
+        │       │   └── slide_n.png
+        │       └── slide_data.json           # (3b) JSON with speaker notes
+        ├── [PRESENTATION_NAME]_SJpresent.py  # (1) SlideJet_present app 
+        └── [PRESENTATION_NAME]_SJconfig.yaml # (2) YAML config. data for (1)
+    """.strip("\n")
+        
+    st.code(tree, language="text")
+    
+    st.markdown("""   
+    ***Enter the local path***
+    - As default, the folder where your ***SlideJet-***:green[***Convert***] app is placed is considered as project_root.
+    - If you intent to deploy the ***SlideJet-***:blue[***Present***] app through GitHub, it is recommended to consider the local copy of the respective GitHub repository as project_root.
+    
+    Enter now your local path to ***SlideJet*** presentations. In the example above this path would be ***project_root/SlideJet_Presentations***.
+    """)
     # Extract filename (without extension)
     pptx_filename = os.path.splitext(uploaded_file.name)[0].replace(" ", "_")
 
     # SlideJet_present folder (YAML will be saved here)
+    default_folder = os.path.join(os.getcwd(), "SlideJet_Presentations")
+    
     present_folder = st.text_input(
-        "Enter the folder where SlideJet_present is located (YAML will be saved here)",
-        value=os.getcwd()
+        "Enter local path in the text field below:",
+        value=default_folder
     )
+
     st.markdown("""
     #### Information for online deployment
-    :orange[**SlideJet-Present**] is typically placed in an online repository (e.g., GitHub) from where the Streamlit-app is deployed. Accordingly, the YAML file needs specific informations to find the presentation for online use. Define the path from the repository to the YAML file below:
+    ***SlideJet-***:blue[***Present***] is typically placed in an online repository (e.g., **GitHub**) from where the Streamlit slideshow is deployed. Accordingly, the ***SlideJet-***:blue[***Present***] app is started from the root level (**GitHub repository** respectively the ***project_root***), and the YAML file needs specific informations to find the presentation from the ***project_root***.
     """
     )
     
-    deployment_mode = st.radio("Deployment Mode",["Local use", "Online use (Streamlit Cloud)"], index=0)
+    deployment_mode = st.radio("Deployment Mode",["Online use (Streamlit Cloud)", "Local use"], index=0)
     
-    with st.expander("Click here to show an example and further explanation"):
+    if deployment_mode == "Online use (Streamlit Cloud)":
         st.markdown("""
-        ***Further information for the 'Online use (Streamlit Cloud)' option***
+        Further information for the ***Online use (Streamlit Cloud)*** option
         
-        Consider that an USER_X operates an REPOSITORY_A on GitHub.com. Within this repository, the user defines a folder where all SlideJet presentations will be saved. This folder is named 'SlideJet_presentations'. Inside of this folder, all SlideJet_present files, the YAML files, and folders with presentation data (see next step) will be saved.
+        Consider that an :violet[**USER_X**] operates an :blue[**REPOSITORY_A**] on **GitHub.com**. Within this repository (= ***project_root***), the user defines a folder where all SlideJet presentations will be saved. This folder is named :orange[**SlideJet_Presentations**]. The structure would look like following:
         
-        The structure would look like following:
+        ***GitHub.com***/:violet[***USER_X***]/:blue[***Repository_A/***]:orange[SlideJet_presentations/]
         
-        :blue[**GitHub.com/USER_X/Repository_A/**]:orange[SlideJet_presentations/]
+        The relative  path from the repository would be :orange[**SlideJet_presentations**]
         
-        The SlideJet_present Python script and the YAML file will be placed in :orange[SlideJet_presentations/]. The relative  path from the repository would be :orange[SlideJet_presentations/].
+        Now, define the relative path from the repository to the YAML file in the text field below (:green[or simply confirm the presetting]):
         """)
     
     if deployment_mode == "Online use (Streamlit Cloud)":
         yaml_repo_path = st.text_input(
-            "Enter the relative path from the repository to the YAML file (e.g., `SlideJet_presentations`). The name of the repository is usually not part of the path",
-            value="SlideJet_presentations"
+            "Enter the relative path",
+            value="SlideJet_Presentations"
         )
     
     st.markdown("""
     #### Relative path to the presentation data
-    :orange[**SlideJet-Present**] access the data from a folder that is typically named :blue[**SJ_Data**]. Within :blue[**SJ_Data**], each presentation can be saved in a subfolder. Subsequently, you can define the relative path, whereas the presetting is likely suitable for most users:
+    ***SlideJet-***:blue[***Present***] access the data from a folder that is typically named **SJ_Data**. Within **SJ_Data**, each individual presentation can be saved in a subfolder. Subsequently, you can define the relative path, whereas the :green[presetting] considering [PRESENTATION_NAME] as subfolder is :green[generally suitable]:
     """
     )
     
@@ -232,14 +278,16 @@ if uploaded_file:
         st.markdown("""
         ***Further information for the relative path***
         
-        Consider your SlideJet_present script and the YAML file are placed in a folder on your local computer or online repository (e.g., 'SlideJet_presentations'). Within this folder, the slides (as *.png graphics) and the JSON-file with the speaker notes can be saved in subfolders. Typically, the main subfolder will be named 'SJ_Data' and contains subfolders for the different presentations like 'Presentation01', 'Presentation02', and so on.
+        Consider the ***SlideJet-***:blue[***Present***] script and the **YAML-file** are placed in a folder ***SlideJet_presentations***.
+
+        Inside this folder, the ***image/slides*** (as *.png graphics) and the **JSON-file** (speaker notes) can be saved in subfolders. Generally, the main subfolder is named **SJ_Data** and contains subfolders for the different presentations like _Presentation01_, _Presentation02_, and so on.
         
-        The relative path is used in your YAML file to allow SLideJet_present to identify the data that are required to generate the Streamlit slideshow.
+        The relative path to presentation data is used in the **YAML-file** to allow ***SlideJet-***:blue[***Present***] to identify the data that are required for the Streamlit slideshow.
         """)
     
     # Slides folder (relative to SlideJet_present folder)
     slides_subfolder = st.text_input(
-        "Relative path where the slides will be saved (from YAML location). Usually it is 'SJ_Data/[NAME_OF_PRESENTATION]'. Eventually modify this.",
+        "Relative path where the slides will be saved (from YAML location). Eventually modify the :green[presetting].",
         value=os.path.join("SJ_DATA", pptx_filename).replace("\\", "/")
     )
     
@@ -249,7 +297,7 @@ if uploaded_file:
     # --- Step: PRESENTATION HEADERS
     st.subheader('SlideJet-Present header information', divider = 'green')
     st.markdown("""
-    :orange[**SlideJet-Present**] is an interactive Streamlit app that shows your presentation with notes as a slideshow. Subsequently, you can define the header and subheader for your specific :orange[**SlideJet-Present**] Streamlit app. This information will be safed in the YAML-file.
+    ***SlideJet-***:blue[***Present***] is an interactive Streamlit app that shows your presentation with notes as a slideshow. Subsequently, you can define the header and subheader for your specific ***SlideJet-***:blue[***Present***] Streamlit app. This information is safed in the YAML-file.
     """
     )
     
@@ -266,11 +314,11 @@ if uploaded_file:
     # --- Final Step: Convert
     st.subheader('Final step: Convert the slideshow', divider = 'green')
     st.markdown("""
-    SlideJet can already create the :orange[**SlideJet_Present**] file that represents the Streamlit SlideShow. Also, please check if your presentation will be part of an multipage app - in that case, the SlideJet presentation will be without a separate page title.
+    SlideJet can already create the ***SlideJet-***:blue[***Present***] file that represents the Streamlit SlideShow. :red[Make sure] that the template file **SlideJet_present_template.py** is present in the folder from where you run this script. Also, please check if your presentation will be part of an multipage app - in that case, the ***SlideJet-***:blue[***Present***] app will be without a separate page title.
     
     Use the subsequent checkboxes to proceed. 
     """)
-    make_presenter = st.checkbox("Create SlideJet_present file next to the YAML", value=True)
+    make_presenter = st.checkbox("***SlideJet-***:blue[***Present***] file next to the YAML", value=True)
     multipage_true = st.checkbox("The SlideJet presentation will be part of an multipage app", value=False)
 
     app_id = "app_01"
@@ -279,7 +327,7 @@ if uploaded_file:
     
     col1, col2, col3 = st.columns((1,1,1))
     with col2:
-        start_convert = st.button(":rainbow[**Convert to Slideshow Data**]")
+        start_convert = st.button(":rainbow[**Convert PPT(X) to SlideJet**]")
         
     if start_convert:
         # Save uploaded file to a unique temporary file
@@ -345,7 +393,7 @@ if uploaded_file:
             
             st.markdown("""
             #### Next steps
-            Now you will find the slides, the speaker notes (as *.json file), the SlideJet_presentation, and the YAML file in the generated folders - see messages above. The see and present the slides, use the generated :orange[**SlideJet_present.py**] application (contains *_SJpresent.py* in the filename). Run this file on your local computer from the command prompt (CMD) with 'streamlit run ... YOUR_PRESENTATION_SJpresent.py'.
+            Now you will find the slides, the speaker notes (as *.json file), the SlideJet_presentation, and the YAML file in the generated folders - see messages above. The see and present the slides, use the generated ***SlideJet-***:blue[***Present***] app (contains *_SJpresent.py* in the filename). Run this file on your local computer from the command prompt (CMD) with 'streamlit run project_root ... YOUR_PRESENTATION_SJpresent.py'.
             """)
         
         # Delete temporary file
@@ -356,11 +404,11 @@ if uploaded_file:
 year = 2025 
 authors = {
     "Thomas Reimann": [1],  # Author 1 belongs to Institution 1
-   #"Colleague Name": [2],  # Author 2 also belongs to Institution 1
+    "Nils Wallenberg": [2], # Author 2 belongs to Institution 2
 }
 institutions = {
     1: "TU Dresden",
-   #2: "Second Institution / Organization"
+    2: "University of Gothenburg"
 }
 author_list = [f"{name}{''.join(f'<sup>{i}</sup>' for i in idxs)}" for name, idxs in authors.items()]
 institution_text = " | ".join([f"<sup>{i}</sup> {inst}" for i, inst in institutions.items()])
