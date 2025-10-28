@@ -23,45 +23,42 @@ SlideJet consists of two components:
 
 ### 💻 Requirements
 
-To run **SlideJet-Convert**, you need the following installed locally (on **Windows**):
+To run **SlideJet-Convert** (and **SlideJet_present_template.py**), you need the following installed locally (on **Windows**):
 
 - [Python](https://www.python.org/downloads/),
 - [Microsoft PowerPoint](https://www.microsoft.com/microsoft-365/powerpoint),
-- Python packages: `streamlit`, `pywin32`, `Pillow`, and `deep-translator`,
-- Download **SlideJet_convert.py** and **SlideJet_present_template.py** in a folder of your choice,
+- Python packages: `streamlit`, `pywin32`, `Pillow`, `pyyaml` and `deep-translator` (and `img2pdf`, `markdown` and `reportlab` for presenting),
+- Download **SlideJet_convert.py**, **SlideJet_present_template.py** and **requirements.txt** in a folder of your choice,
 - [For online deployment/sharing a GitHub account is recommended].
   
 ---
 
 ### ⚙️ Installation and running the app
 
-If not already on your computer: Please install Python (e.g., through a distribution like Anaconda, or by downloading from www.python.org)
+If not already on your computer: Please install Python (e.g., through a distribution like Anaconda, or by downloading from www.python.org).
 
-Download the Python files **SlideJet_convert.py** and **SlideJet_present_template.py** on a folder on your local computer
+Download the Python files **SlideJet_convert.py** and **SlideJet_present_template.py** and the **requirements.txt** on a folder on your local computer.
 
-Open a **Command Prompt** and run the following command:
+Open a **Command Prompt** and move to the directory where your **SlideJet_convert.py** and **SlideJet_present_template.py** files are located.
+
+Create a virtual Python environment for SlideJet:
+
+```
+bash
+python -m venv .venv
+```
+
+Activate the virtual environment (Windows):
+
+```
+bash
+.venv\Scripts\activate
+```
+
+Install the required Python packages:
 
 ```bash
-pip install streamlit
-```
-
-Then you add the required Python libraries with the command: pip install …
- (https://docs.streamlit.io/get-started/installation)
- 
- ```bash
-pip install pywin32
-```
-
-(this should include pythoncom and win32com)
-
- ```bash
-pip install Pillow
-```
-
-(this should include PIL)
-
- ```bash
-pip install deep-translator
+pip install -r requirements.txt
 ```
 
 Then start the app with the command window from the folder where SlideJet_convert.py is saved with:

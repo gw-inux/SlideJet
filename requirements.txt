@@ -1,7 +1,8 @@
 streamlit
-PyYAML
+pywin32
 Pillow
+deep-translator
+pyyaml
 img2pdf
 markdown
-deep-translator
 reportlab
