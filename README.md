@@ -43,15 +43,13 @@ Open a **Command Prompt** and move to the directory where your **SlideJet_conver
 
 Create a virtual Python environment for SlideJet:
 
-```
-bash
+```bash
 python -m venv .venv
 ```
 
 Activate the virtual environment (Windows):
 
-```
-bash
+```bash
 .venv\Scripts\activate
 ```
 
