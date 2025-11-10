@@ -1,0 +1,8 @@
+streamlit
+pywin32
+Pillow
+deep-translator
+pyyaml
+img2pdf
+markdown
+reportlab

@@ -56,7 +56,7 @@ Activate the virtual environment (Windows):
 Install the required Python packages:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements_local_env.txt
 ```
 
 Then start the app with the command window from the folder where SlideJet_convert.py is saved with:
