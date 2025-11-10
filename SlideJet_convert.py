@@ -208,11 +208,11 @@ if uploaded_file:
     )
     
     tree = """
-    📁 project_root/                          # e.g., local copy of your GitHub repo
-    └── 📁 SlideJet_Presentations/            # folder in the repo for presentations
-        ├── 📁 SJ_Data/                       # folder containing SlideJet data
-        │   └── 📁 [PRESENTATION_NAME]/       # individual folder for a presentation
-        │       ├── 📁 images/                # (3a) folder with exported slides
+    📁 project_root\                          # e.g., local copy of your GitHub repo
+    └── 📁 SlideJet_Presentations\            # folder in the repo for presentations
+        ├── 📁 SJ_Data\                       # folder containing SlideJet data
+        │   └── 📁 [PRESENTATION_NAME]\       # individual folder for a presentation
+        │       ├── 📁 images\                # (3a) folder with exported slides
         │       │   ├── slide_1.png           # image file of the slides
         │       │   ├── slide_2.png
         │       │   └── slide_n.png
@@ -228,7 +228,7 @@ if uploaded_file:
     - As default, the folder where your ***SlideJet-***:green[***Convert***] app is placed is considered as project_root.
     - If you intent to deploy the ***SlideJet-***:blue[***Present***] app through GitHub, it is recommended to consider the local copy of the respective GitHub repository as project_root.
     
-    Enter now your local path to ***SlideJet*** presentations. In the example above this path would be ***project_root/SlideJet_Presentations***.
+    Enter now your local path to ***SlideJet*** presentations. In the example above this path would be ***project_root\SlideJet_Presentations***.
     """)
     # Extract filename (without extension)
     pptx_filename = os.path.splitext(uploaded_file.name)[0].replace(" ", "_")
@@ -255,7 +255,7 @@ if uploaded_file:
         
         Consider that an :violet[**USER_X**] operates an :blue[**REPOSITORY_A**] on **GitHub.com**. Within this repository (= ***project_root***), the user defines a folder where all SlideJet presentations will be saved. This folder is named :orange[**SlideJet_Presentations**]. The structure would look like following:
         
-        ***GitHub.com***/:violet[***USER_X***]/:blue[***Repository_A/***]:orange[SlideJet_presentations/]
+        ***GitHub.com***\:violet[***USER_X***]\:blue[***Repository_A\***]:orange[SlideJet_presentations\]
         
         The relative  path from the repository would be :orange[**SlideJet_presentations**]
         
@@ -280,7 +280,7 @@ if uploaded_file:
         
         Consider the ***SlideJet-***:blue[***Present***] script and the **YAML-file** are placed in a folder ***SlideJet_presentations***.
 
-        Inside this folder, the ***image/slides*** (as *.png graphics) and the **JSON-file** (speaker notes) can be saved in subfolders. Generally, the main subfolder is named **SJ_Data** and contains subfolders for the different presentations like _Presentation01_, _Presentation02_, and so on.
+        Inside this folder, the ***image\slides*** (as *.png graphics) and the **JSON-file** (speaker notes) can be saved in subfolders. Generally, the main subfolder is named **SJ_Data** and contains subfolders for the different presentations like _Presentation01_, _Presentation02_, and so on.
         
         The relative path to presentation data is used in the **YAML-file** to allow ***SlideJet-***:blue[***Present***] to identify the data that are required for the Streamlit slideshow.
         """)

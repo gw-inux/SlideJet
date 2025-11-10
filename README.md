@@ -41,7 +41,7 @@ Download the Python files **SlideJet_convert.py** and **SlideJet_present_templat
 
 Open a **Command Prompt** and move to the directory where your **SlideJet_convert.py** and **SlideJet_present_template.py** files are located.
 
-Create a virtual Python environment for SlideJet:
+Optionally, create a virtual Python environment for SlideJet:
 
 ```bash
 python -m venv .venv
