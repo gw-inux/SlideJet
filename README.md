@@ -65,6 +65,8 @@ Then start the app with the command window from the folder where SlideJet_conver
 streamlit run SlideJet_convert.py
 ```
 
+---
+
 ### 📺 Getting Started
 
 A short tutorial and video guide (link coming soon) will walk you through the full process.
@@ -73,6 +75,8 @@ With a decent internet connection, the entire setup takes just a few minutes. Su
 The Presentation [**SlideJet - Overview**](https://slidejet-outline.streamlit.app/) introduces the app and provide further guidance on use.
 
 <img src="FIGS/SlideJet_Logo_Wide_small.png" alt="SlideJet Logo" width="300">
+
+---
 
 ### Citation and Referencing
 
@@ -85,6 +89,8 @@ https://doi.org/10.5281/zenodo.17568925
 
 Permanent DOI:
 https://doi.org/10.5281/zenodo.17568925
+
+---
 
 ### Funding and Disclaimer
 
