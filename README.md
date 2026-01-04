@@ -74,6 +74,18 @@ The Presentation [**SlideJet - Overview**](https://slidejet-outline.streamlit.ap
 
 <img src="FIGS/SlideJet_Logo_Wide_small.png" alt="SlideJet Logo" width="300">
 
+### Citation and Referencing
+
+SlideJet is archived on Zenodo to ensure long-term availability and citability.
+
+Please use the following reference when citing SlideJet in scientific publications, teaching materials, or reports:
+
+Reimann, T., Wallenberg, N., Giese, M., & Poeter, E. (2025). SlideJet (Version 1.0). Zenodo.
+https://doi.org/10.5281/zenodo.17568925
+
+Permanent DOI:
+https://doi.org/10.5281/zenodo.17568925
+
 ### Funding and Disclaimer
 
 This software was developed with funding from the German Federal Ministry of Education and Research (BMBF) under the MEWAC-FEMAR project (funding reference: FKZ 02WME1612B).
