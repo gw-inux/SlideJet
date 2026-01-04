@@ -73,3 +73,13 @@ With a decent internet connection, the entire setup takes just a few minutes. Su
 The Presentation [**SlideJet - Overview**](https://slidejet-outline.streamlit.app/) introduces the app and provide further guidance on use.
 
 <img src="FIGS/SlideJet_Logo_Wide_small.png" alt="SlideJet Logo" width="300">
+
+### Funding and Disclaimer
+
+This software was developed with funding from the German Federal Ministry of Education and Research (BMBF) under the MEWAC-FEMAR project (funding reference: FKZ 02WME1612B).
+
+The responsibility for the content of this software lies with the authors.
+
+The software is provided “as is”. While it is developed and tested with care, the authors do not guarantee its correctness or suitability for all possible use cases and assume no liability for any consequences arising from its use.
+
+<img src="FIGS/sponsored_bmbf.png" alt="Funded by BMBF – MEWAC-FEMAR project" width="300">

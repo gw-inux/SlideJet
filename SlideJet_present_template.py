@@ -11,6 +11,9 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, PageBreak, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from reportlab.lib.units import cm
+import random
+import string
+import re
 
 # This is a generalized application to present PowerPoint slides and notes as slideshow through Streamlit.
 # You can adapt the script with defining another YAML file (The YAML contain the paths, headers, and other information).
@@ -42,10 +45,47 @@ def validate_config(config):
     if missing:
         raise ValueError(f"Missing required keys in YAML: {', '.join(missing)}")
 
-def translate_notes(text, target_lang):
-    # Translate the text with GOOGLE translate
+def generate_placeholder():
+    return ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
+
+def protect_terms(text: str, lang: str):
+    """
+    Replace protected terms by random placeholders before translation.
+    Returns (protected_text, replacements_dict).
+    """
+    replacements = {}
+    terms = protected_terms.get(lang, {})
+
+    # Longer terms first to avoid partial overlaps
+    for term in sorted(terms, key=len, reverse=True):
+        placeholder = generate_placeholder()
+        while placeholder in text or placeholder in replacements:
+            placeholder = generate_placeholder()
+
+        # Word boundary match (good for single tokens like 'Python', 'SlideJet')
+        pattern = r'\b' + re.escape(term) + r'\b'
+        text, count = re.subn(pattern, placeholder, text)
+        if count > 0:
+            replacements[placeholder] = term
+
+    return text, replacements
+
+def restore_terms(text: str, replacements: dict):
+    """
+    Replace placeholders back to original protected terms after translation.
+    """
+    for placeholder, original in replacements.items():
+        text = re.sub(re.escape(placeholder), original, text)
+    return text
+
+@st.cache_data(show_spinner=False)
+def translate_notes(text: str, target_lang: str | None):
+    if not target_lang:
+        return text
     try:
-        return GoogleTranslator(source='auto', target=target_lang).translate(text)
+        protected_text, replacements = protect_terms(text, target_lang)
+        translated = GoogleTranslator(source="auto", target=target_lang).translate(protected_text)
+        return restore_terms(translated, replacements)
     except Exception as e:
         return f"[Translation failed: {e}]"
 
@@ -183,8 +223,37 @@ def add_notes_with_overlay(slides, images, output_pdf, trans_lan=None, font_size
 
     doc.build(elements)
 
-# --- Print Title
-#st.title("Presentation Slides")
+# --- DICTIONARY ---
+
+protected_terms = {
+    "de": {
+        "SlideJet": "SlideJet",
+        "PowerPoint": "PowerPoint",
+        "Streamlit": "Streamlit",
+        "Python": "Python"
+    },
+    "fr": {
+        "SlideJet": "SlideJet",
+        "PowerPoint": "PowerPoint",
+        "Streamlit": "Streamlit",
+        "Python": "Python"
+    },
+    "it": {
+        "SlideJet": "SlideJet",
+        "PowerPoint": "PowerPoint",
+        "Streamlit": "Streamlit",
+        "Python": "Python"
+    },
+    "hi": {
+        "SlideJet": "SlideJet",
+        "PowerPoint": "PowerPoint",
+        "Streamlit": "Streamlit",
+        "Python": "Python"
+    },
+    # Extend for other languages
+}
+
+# --- USER INTERFACE
 
 # --- Define keys ---
 reset_key = f"{app_id}_reset_mode"
@@ -402,21 +471,21 @@ if st.session_state[slide_data_key]:
 else:
     st.warning("The presentation is not loaded yet.")
 
-'---'
-st.markdown(":grey[**Presentation Management**]")
-
-with st.expander('🔄 :red[**CLICK HERE**] if you want to load another presentation'):
-    st.warning("Are you sure you want to load another presentation? **If yes**, you will be able to select another presentation through a YAML-file. However, **this will remove the current presentation** from memory.")
-
-    col1, col2, col3 = st.columns((3,4,2))
-    with col2:
-        if st.button("✅ Yes, load new presentation"):
-            st.session_state[reset_key] = True
-            st.session_state[config_key] = None
-            st.session_state[slide_data_key] = None
-            st.session_state[presentation_folder_key] = None
-            st.session_state[images_folder_key] = None
-            st.rerun()
+#'---'
+#st.markdown(":grey[**Presentation Management**]")
+#
+#with st.expander('🔄 :red[**CLICK HERE**] if you want to load another presentation'):
+#    st.warning("Are you sure you want to load another presentation? **If yes**, you will be able to select another presentation through a YAML-file. However, **this will remove the current presentation** from memory.")
+#
+#    col1, col2, col3 = st.columns((3,4,2))
+#    with col2:
+#        if st.button("✅ Yes, load new presentation"):
+#            st.session_state[reset_key] = True
+#            st.session_state[config_key] = None
+#            st.session_state[slide_data_key] = None
+#            st.session_state[presentation_folder_key] = None
+#            st.session_state[images_folder_key] = None
+#            st.rerun()
 
 # --- Footer (Authors and Copyright)---
 '---'
